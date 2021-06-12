@@ -15,7 +15,10 @@ class ApiProvider extends GetConnect {
 
   // getting lat and lng from api
   Future<String> fetchLatLngFromApi(String location) async {
-    final fetchLatLngResponce = await get('${latLngUrl}address=$location, CA&key=$googleApiKey');
+    print(location);
+    var url = Uri.encodeFull('${latLngUrl}address=$location, CA&key=$googleApiKey');
+    print(url);
+    final fetchLatLngResponce = await get(url);
     if (fetchLatLngResponce.hasError) {
       Get.snackbar('Error', fetchLatLngResponce.statusText.toString());
       return fetchLatLngResponce.bodyString.toString();

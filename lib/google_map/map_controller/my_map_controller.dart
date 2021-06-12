@@ -70,19 +70,37 @@ class MyMapController extends GetxController {
   onInit() async {
     super.onInit();
     creatRandomMarker();
-    currentLocation = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    currentLocation = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     var value = getStorage.read('csvData');
     var items = value[0].toString().split('\n');
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
-      if (item.contains('\"')) {
-        var data = item.split('\"');
-        locationList.add(data[1]);
-        dataList.add(data[0]);
+      if (item.contains('.')) {
+        List itemColumns = item.split(',');
+        String nameAndAddress = itemColumns[itemColumns.length-1].toString().replaceFirst('#', 'No');  
+        int indexOfStartOfAddress = findIntegerPositionInsideSentence(nameAndAddress);
+        String address = nameAndAddress.substring(indexOfStartOfAddress, (nameAndAddress.length));
+        String rest = itemColumns[0] + itemColumns[1] + itemColumns[2] + itemColumns[3];
+        //var data = item.split('\"');
+        locationList.add(address);
+        dataList.add(rest);
       }
     }
     fetchLatLngFromApi();
+    /*
+     var item = items[i];
+      List itemColumns =  item.split(',');
+      if(itemColumns[itemColumns.length-1].toString().contains('.'))
+      {
+        String rest = itemColumns[0] + ',' + itemColumns[1] + ',' +  itemColumns[2];
+        String addressAndName = itemColumns[3];
+        addressAndName = addressAndName.replaceFirst(".", "\"");
+        var data = addressAndName.split('\"');
+        locationList.add(data[1]);
+        rest = rest + "," + data[0];
+        dataList.add(rest);
+      }
+    */
   }
 
   void fetchLatLngFromApi() {
@@ -161,6 +179,7 @@ class MyMapController extends GetxController {
             CameraPosition(
               target: LatLng(updateLat.value, updateLng.value),
               zoom: 12.0,
+              tilt: 0.6
             ),
           ),
         );
@@ -387,5 +406,17 @@ class MyMapController extends GetxController {
         c((lat2 - lat1) * p) / 2 +
         c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
     return 12742 * asin(sqrt(a));
+  }
+
+  int findIntegerPositionInsideSentence(String nameAddress){
+    int i = 0;
+    for(int j=0; j < nameAddress.length; j++){
+      final number = num.tryParse(nameAddress[j]);
+      if(number != null)
+       {
+         return j;
+       }
+    }
+    return i;
   }
 }

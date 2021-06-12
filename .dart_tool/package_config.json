@@ -369,9 +369,9 @@
     },
     {
       "name": "win32",
-      "rootUri": "file:///Users/cameronking/.pub-cache/hosted/pub.dartlang.org/win32-2.1.1",
+      "rootUri": "file:///Users/cameronking/.pub-cache/hosted/pub.dartlang.org/win32-2.0.5",
       "packageUri": "lib/",
-      "languageVersion": "2.13"
+      "languageVersion": "2.12"
     },
     {
       "name": "xdg_directories",
@@ -386,7 +386,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-06-05T23:15:50.838350Z",
+  "generated": "2021-06-12T19:50:58.531278Z",
   "generator": "pub",
   "generatorVersion": "2.13.0"
 }

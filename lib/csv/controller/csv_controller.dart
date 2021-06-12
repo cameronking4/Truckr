@@ -17,6 +17,7 @@ class CsvController extends GetxController {
     );
     String? path = result!.files.first.path;
     var data = loadingCsvData(path!)!.then((value) {
+      print(value);
       getStorage.write('csvData', value);
       Get.to(() => MyMapView());
     });
@@ -25,11 +26,10 @@ class CsvController extends GetxController {
   Future<List<List<dynamic>>>? loadingCsvData(String path) async {
     final csvFile = new File(path).openRead();
     return await csvFile
-        .transform(utf8.decoder)
-        .transform(
-          new CsvToListConverter(
-              textDelimiter: ',', fieldDelimiter: ',', textEndDelimiter: ','),
-        )
-        .toList();
+      .transform(utf8.decoder)
+      .transform(
+      new CsvToListConverter(),
+      )
+      .toList();
   }
 }

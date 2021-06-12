@@ -32,6 +32,8 @@ class MyMapView extends StatelessWidget {
                           zoomControlsEnabled: false,
                           mapToolbarEnabled: true,
                           buildingsEnabled: true,
+                          trafficEnabled: true,
+                          tiltGesturesEnabled: true,
                           onMapCreated: (GoogleMapController controller) {
                             _myMapController.mapController = controller;
                             _myMapController.updateLocation();
@@ -156,12 +158,13 @@ class MyMapView extends StatelessWidget {
                       children: [
                         Obx(
                           () => Expanded(
-                            child: Text(
-                              (_myMapController.sortedLatLngList[index].description).replaceAll(' ', '    '),
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700),
+                            child:
+                            Text( "Stop #" +  (index + 1).toString() + "/" + (_myMapController.sortedLatLngList.length).toString()+ "  "+
+                              (_myMapController.sortedLatLngList[index].description).replaceAll(' ', '  ')+ "  " +( index > 0 ? (_myMapController.sortedLatLngList[index].distance).toStringAsFixed(2) + " miles away from last stop" : ""),
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700),
                             ),
                           ),
                         ),
